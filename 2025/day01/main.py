@@ -16,18 +16,19 @@ def solve(rotations: list[str], dial_reset: int = 100):
         net_turns = number % dial_reset
         old_pos = pos
         if net_turns == 0:
+            zero_passes += full_turns
             continue
         if direction == "L":
             pos -= net_turns
             if pos <= 0:
                 pos = dial_reset + pos
-                if old_pos != 0:
+                if old_pos > 0:
                     zero_passes += 1
         elif direction == "R":
             pos += net_turns
             if pos >= dial_reset:
                 pos = pos - dial_reset
-                if old_pos != 0:
+                if old_pos < dial_reset:
                     zero_passes += 1
         zero_passes += full_turns
         print(direction, number, pos, zero_passes)
