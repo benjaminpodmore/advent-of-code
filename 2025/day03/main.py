@@ -11,7 +11,7 @@ def get_data(path: Path):
 def solve(data: list[str]):
     res = 0
     for bank in data:
-        max_val = compute_slow(bank)
+        max_val = compute_fast(bank, 2)
         res += max_val
     return res 
 
@@ -22,6 +22,12 @@ def compute_slow(bank: str) -> int:
             val = int(bank[i]+bank[j])
             max_val = max(max_val, val)
     return max_val 
+
+def compute_fast(bank: str, digit_len: int) -> int:
+    digits = []
+
+    max_val = -1
+    return max_val
 
 
 if __name__ == "__main__":
