@@ -11,7 +11,7 @@ def get_data(path: Path):
 def solve(data: list[str]):
     res = 0
     for bank in data:
-        max_val = compute_fast(bank, 2)
+        max_val = compute_fast(bank, 12)
         res += max_val
     return res 
 
@@ -23,11 +23,30 @@ def compute_slow(bank: str) -> int:
             max_val = max(max_val, val)
     return max_val 
 
-def compute_fast(bank: str, digit_len: int) -> int:
-    digits = []
+def find_max(bank: str, start: int, end: int) -> tuple[int, str]:
+    max_val_index = -1
+    max_val = "-1"
+    for idx, digit in enumerate(bank[start:end]):
+        if int(digit) > int(max_val):
+            max_val = digit
+            max_val_index = idx
 
-    max_val = -1
-    return max_val
+    return max_val_index + start, max_val
+
+def compute_fast(bank: str, num_digits: int) -> int:
+    digits: list[str] = []
+    count = 0
+
+    start = 0
+    end = len(bank) - num_digits + 1
+    while count < num_digits:
+        first_digit_index, digit = find_max(bank, start, end)
+        count += 1
+        start = first_digit_index + 1
+        end = len(bank) - num_digits + count + 1
+        digits.append(digit)
+
+    return int("".join(digits))
 
 
 if __name__ == "__main__":
