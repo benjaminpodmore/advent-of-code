@@ -11,9 +11,23 @@ def get_data(path: Path) -> list[list[str]]:
             data.append(list(line.strip()))
     return data
 
-
 def solve(grid: list[list[str]]) -> int:
+    count = 0
+    grid_copy = grid
+    res = 100000
+    while res > 0:
+        res, indices = solve_grid(grid_copy)
+        for index in indices:
+            i = index[0]
+            j = index[1]
+            grid_copy[i][j] = "."
+        count += res
+    return count
+
+
+def solve_grid(grid: list[list[str]]) -> tuple[int, list[tuple[int, int]]]:
     spot_count = 0
+    indices = []
     for i in range(len(grid)):
         for j in range(len(grid[0])):
             if grid[i][j] != "@":
@@ -30,8 +44,10 @@ def solve(grid: list[list[str]]) -> int:
                     count += 1
             if count < 4:
                 spot_count += 1
+                indices_to_remove = (i, j)
+                indices.append(indices_to_remove)
 
-    return spot_count
+    return spot_count, indices
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
