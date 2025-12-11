@@ -14,14 +14,16 @@ def get_data(path: Path) -> list[list[str]]:
 def solve(grid: list[list[str]]) -> int:
     count = 0
     grid_copy = grid
-    res = 100000
-    while res > 0:
+    are_rolls_remaining = True
+    while are_rolls_remaining:
         res, indices = solve_grid(grid_copy)
         for index in indices:
             i = index[0]
             j = index[1]
             grid_copy[i][j] = "."
         count += res
+        if res == 0:
+            are_rolls_remaining = False
     return count
 
 
